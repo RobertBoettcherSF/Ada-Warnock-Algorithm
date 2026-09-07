@@ -44,7 +44,9 @@ is
 
    type Point_Array is array (Positive range <>) of Point_2D;
 
-   type Polygon_Record (Vertex_Count : Positive := 3) is record
+   subtype Polygon_Vertex_Count is Positive range 1 .. 64;
+
+   type Polygon_Record (Vertex_Count : Polygon_Vertex_Count := 3) is record
       Vertices : Point_Array (1 .. Vertex_Count);
       Plane    : Plane_Equation;
       Color    : RGBA_Color;
