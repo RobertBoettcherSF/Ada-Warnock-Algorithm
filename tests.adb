@@ -24,7 +24,7 @@ procedure Tests is
    is
       Poly : Polygon_Record (3);
    begin
-      Poly.Vertices := (1 => P1, 2 => P2, 3 => P3);
+      Poly.Vertices := [1 => P1, 2 => P2, 3 => P3];
       --  Equation z = Z_Val => 0x + 0y + 1z - Z_Val = 0
       Poly.Plane    := (A => 0.0, B => 0.0, C => 1.0, D => -Z_Val);
       Poly.Color    := C;
@@ -38,7 +38,7 @@ procedure Tests is
    is
       Poly : Polygon_Record (4);
    begin
-      Poly.Vertices := (1 => P1, 2 => P2, 3 => P3, 4 => P4);
+      Poly.Vertices := [1 => P1, 2 => P2, 3 => P3, 4 => P4];
       Poly.Plane    := (A => 0.0, B => 0.0, C => 1.0, D => -Z_Val);
       Poly.Color    := C;
       return Poly;
@@ -116,7 +116,7 @@ begin
    begin
       Check ("6.1 Enclosing polygon classifies as Surrounding", Rel = Surrounding_Polygon);
       Check ("6.2 Corners test yields surrounding", Rel /= Contained_Polygon);
-      Check ("6.3 Surrounding polygon found as frontmost", Find_Frontmost_Surrounding ((1 => P), A) = 1);
+      Check ("6.3 Surrounding polygon found as frontmost", Find_Frontmost_Surrounding ([1 => P], A) = 1);
    end;
 
    --  TEST 7 — Relationship Classification: Intersecting
@@ -135,7 +135,7 @@ begin
    --  TEST 8 — Standard Render: Empty Polygon List (Background Fallback)
    Put_Line ("TEST 8 — Standard Render: Empty Polygons");
    declare
-      Empty_Polys : constant Polygon_Array (1 .. 0) := (others => <>);
+      Empty_Polys : constant Polygon_Array (1 .. 0) := [others => <>];
       Area        : constant Viewport_Area := (0.0, 0.0, 4.0, 4.0);
       Color_Out   : RGBA_Color;
    begin
@@ -153,7 +153,7 @@ begin
         ((-1.0, -1.0), (3.0, -1.0), (3.0, 3.0), (-1.0, 3.0), 1.0, Red);
       P_Front : constant Polygon_Record := Make_Quad
         ((-1.0, -1.0), (3.0, -1.0), (3.0, 3.0), (-1.0, 3.0), 5.0, Blue);
-      Polys : constant Polygon_Array (1 .. 2) := (1 => P_Back, 2 => P_Front);
+      Polys : constant Polygon_Array (1 .. 2) := [1 => P_Back, 2 => P_Front];
       Out_Col : RGBA_Color;
    begin
       Render_Standard (Polys, Area, White, 0.1, Out_Col);
@@ -166,10 +166,10 @@ begin
    Put_Line ("TEST 10 — Framebuffer Grid Rasterization");
    declare
       Area   : constant Viewport_Area := (0.0, 0.0, 4.0, 4.0);
-      Buffer : Framebuffer (0 .. 3, 0 .. 3) := (others => (others => White));
+      Buffer : Framebuffer (0 .. 3, 0 .. 3) := [others => [others => White]];
       P      : constant Polygon_Record := Make_Quad
         ((-1.0, -1.0), (5.0, -1.0), (5.0, 5.0), (-1.0, 5.0), 2.0, Green);
-      Polys  : constant Polygon_Array (1 .. 1) := (1 => P);
+      Polys  : constant Polygon_Array (1 .. 1) := [1 => P];
    begin
       Render_Framebuffer (Polys, Area, Black, Buffer, Max_Depth => 2);
       Check ("10.1 Pixel (0,0) rendered to green", Buffer (0, 0).Green = Green.Green);
@@ -183,7 +183,7 @@ begin
       Area    : constant Viewport_Area := (0.0, 0.0, 2.0, 2.0);
       P       : constant Polygon_Record := Make_Quad
         ((0.0, 0.0), (1.0, 0.0), (1.0, 2.0), (0.0, 2.0), 1.0, Red);
-      Polys   : constant Polygon_Array (1 .. 1) := (1 => P);
+      Polys   : constant Polygon_Array (1 .. 1) := [1 => P];
       Out_Col : RGBA_Color;
    begin
       --  Half area covered by Red, half by Black
@@ -202,7 +202,7 @@ begin
    declare
       Area        : constant Viewport_Area := (0.0, 0.0, 8.0, 8.0);
       P           : constant Polygon_Record := Make_Triangle ((1.0, 1.0), (2.0, 1.0), (1.5, 2.0), 1.0, Red);
-      Polys       : constant Polygon_Array (1 .. 1) := (1 => P);
+      Polys       : constant Polygon_Array (1 .. 1) := [1 => P];
       Total_Nodes : Natural;
       Max_Depth   : Natural;
    begin
