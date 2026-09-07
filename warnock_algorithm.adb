@@ -207,10 +207,10 @@ is
       Vertices_Inside : Natural := 0;
       Corners_Inside  : Natural := 0;
       Area_Edges      : constant array (1 .. 4, 1 .. 2) of Point_2D :=
-        (1 => (Area_Corner (Area, 1), Area_Corner (Area, 2)),
-         2 => (Area_Corner (Area, 2), Area_Corner (Area, 3)),
-         3 => (Area_Corner (Area, 3), Area_Corner (Area, 4)),
-         4 => (Area_Corner (Area, 4), Area_Corner (Area, 1)));
+        [1 => [Area_Corner (Area, 1), Area_Corner (Area, 2)],
+         2 => [Area_Corner (Area, 2), Area_Corner (Area, 3)],
+         3 => [Area_Corner (Area, 3), Area_Corner (Area, 4)],
+         4 => [Area_Corner (Area, 4), Area_Corner (Area, 1)]];
    begin
       if not Bounding_Boxes_Overlap (Poly, Area) then
          return Disjoint_Polygon;
